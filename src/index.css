@@ -1,0 +1,153 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #efefef;
+  display: flex;
+  justify-content: center;
+  max-height: 100vh;
+  margin-top: 27vh;
+  color: #4f4d4d;
+}
+
+.App {
+  background-color: #d0d6b3;
+  width: max(40vw, 350px);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  width: 90%;
+  margin: 2rem auto 0;
+
+  button {
+    background-color: #efefef;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+
+    i {
+      color: #73870d;
+      font-size: 1.2rem;
+    }
+  }
+
+  input {
+    flex-grow: 1;
+    background-color: #efefef;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    color: #4f4d4d;
+  }
+}
+
+.form input:focus,
+.form input:active {
+  outline: #73870d solid 2px;
+}
+
+.todo {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  padding-block: 0;
+  width: 100%;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.todo input[type="checkbox"] {
+  accent-color: #efefef;
+  margin-top: 0.5rem;
+  transform: scale(1.5);
+}
+
+.todo .completed {
+  text-decoration: line-through;
+  color: #efefef;
+}
+
+.todo-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 90%;
+  margin: 1rem auto 0;
+  border-bottom: 1px solid #73870d;
+  padding-bottom: 1rem;
+}
+
+.delete-button {
+  background-color: #d0d6b3;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
+
+  i {
+    color: #efefef;
+    font-size: 1.2rem;
+  }
+}
+
+.todo-container:hover .delete-button {
+  opacity: 1;
+  visibility: visible;
+}
+
+.delete-button:hover {
+  background-color: #73870d;
+}
+
+@media (max-width: 600px) {
+  body {
+    margin-top: 15vh;
+  }
+
+  .todo {
+    font-size: 1rem;
+  }
+
+  .todo input[type="checkbox"] {
+    transform: scale(1.2);
+  }
+
+  .delete-button {
+    opacity: 1 !important; /* Force visible on mobile */
+    visibility: visible !important;
+  }
+
+  .delete-button:hover {
+    background-color: #d0d6b3; /* No hover effect on mobile */
+  }
+
+  .form input {
+    font-size: 1rem;
+  }
+
+  .todo-container:hover .delete-button {
+    opacity: 1;
+    visibility: visible;
+  }
+}
