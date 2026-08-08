@@ -67,10 +67,9 @@ body {
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem;
-  padding-block: 0;
   width: 100%;
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
 .todo input[type="checkbox"] {
@@ -93,14 +92,13 @@ body {
   align-items: flex-start;
   width: 90%;
   margin: 0 auto;
-  padding-top: 0.5rem;
+  padding: 0.2rem;
   border-bottom: 1px solid #73870d;
 }
 
 .delete-button {
   background-color: #d0d6b3;
   padding: 0.5rem;
-  margin-top: -0.5rem;
   border-radius: 0.5rem;
   border: none;
   opacity: 0;
@@ -111,7 +109,7 @@ body {
 
   i {
     color: #efefef;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 }
 

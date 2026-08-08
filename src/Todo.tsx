@@ -1,11 +1,13 @@
-import { useState } from "react";
+interface TodoProps {
+  task: string;
+  id: string;
+  isCompleted: boolean;
+  handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDelete: () => void;
+}
 
-export default function Todo(props: { task: string; id: string }) {
-  const [isCompleted, setIsCompleted] = useState(false);
-
-  function handleCheckboxChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setIsCompleted(event.target.checked);
-  }
+export default function Todo(props: TodoProps) {
+  
 
   return (
     <div className="todo-container" style={{ cursor: "pointer" }}>
@@ -13,15 +15,15 @@ export default function Todo(props: { task: string; id: string }) {
         <input
           type="checkbox"
           id={props.id}
-          checked={isCompleted}
-          onChange={handleCheckboxChange}
+          checked={props.isCompleted}
+          onChange={props.handleCheckboxChange}
         />
-        <label htmlFor={props.id} className={isCompleted ? "completed" : ""} style={{ cursor: "pointer" }}>
+        <label htmlFor={props.id} className={props.isCompleted ? "completed" : ""} style={{ cursor: "pointer" }}>
           {props.task}
         </label>
       </div>
 
-      <button className="delete-button" aria-label="Delete task">
+      <button className="delete-button" aria-label="Delete task" onClick={props.handleDelete}>
         <i className="fa-solid fa-trash"></i>
       </button>
     </div>
