@@ -1,75 +1,85 @@
-# React + TypeScript + Vite
+# Todo App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack todo/task manager. React + TypeScript + Vite frontend backed by an Express + MongoDB REST API.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Add tasks
+- Mark tasks complete/incomplete (persisted to the API)
+- Delete tasks with an inline confirmation
+- Loading spinner, empty state, and dismissible error banner
+- Live date display that auto-updates at midnight
 
-## React Compiler
+## Tech stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend:** React 19, TypeScript, Vite
+- **Backend:** Express, MongoDB (Mongoose), Zod, Helmet, CORS — in the sibling `server/` directory
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Project structure
 
 ```
+todo-react/
+  src/
+    components/   # UI components (Header, TodoForm, TodoList, Todo, ErrorBanner)
+    hooks/        # useTodos, useCurrentDate
+    types.ts      # shared Todo type
+    App.tsx       # app composition
+    main.tsx      # entry point
+server/           # Express + MongoDB backend (separate project)
+  src/
+    app.ts        # API routes
+    server.ts     # server entry (MongoDB connection + listen)
+    model/        # Mongoose models
+```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+**Prerequisites:** Node.js and a running MongoDB instance on `localhost:27017`.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Start the backend
+
+```sh
+cd server
+npm install
+npm run dev
+```
+
+Requires a `.env` file in `server/`:
 
 ```
+PORT=8000
+DB_URL=mongodb://localhost:27017/todoappreact
+```
+
+The server runs on `http://localhost:8000`.
+
+### 2. Start the frontend
+
+```sh
+cd todo-react
+npm install
+npm run dev
+```
+
+Vite starts with `--host` and prints a local URL to open.
+
+## Available scripts
+
+| Script      | Description                              |
+| ----------- | ---------------------------------------- |
+| `npm run dev` | Start the Vite dev server              |
+| `npm run build` | Type-check and build for production  |
+| `npm run lint`  | Run ESLint                           |
+| `npm run preview` | Preview the production build       |
+
+## API
+
+Base URL: `http://localhost:8000/api`
+
+| Method | Endpoint        | Body                          | Description            |
+| ------ | --------------- | ----------------------------- | ---------------------- |
+| GET    | `/api/todo`     | —                             | List all todos         |
+| POST   | `/api/todo`     | `{ "task": "..." }`           | Create a todo (2–100 chars) |
+| GET    | `/api/todo/:id` | —                             | Get a single todo      |
+| PATCH  | `/api/todo/:id` | `{ "completed": true }`       | Update completion      |
+| DELETE | `/api/todo/:id` | —                             | Delete a todo          |
