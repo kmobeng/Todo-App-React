@@ -1,8 +1,18 @@
 import { useState, useEffect } from "react";
 import Todo from "./Todo";
 
+const BASE_URL = "http://localhost:8000/api";
+
+interface Todo {
+  task: string;
+  completed: boolean;
+  createdAt: string;
+  _id: string;
+}
+
 function App() {
   const [date, setDate] = useState(new Date());
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
     const updateDateIfChanged = () => {
@@ -36,6 +46,38 @@ function App() {
     month: "short",
   });
 
+  async function addTodo(formData: FormData) {
+    const task = formData.get("task") as string;
+    if (task) {
+      try {
+        const response = await fetch(`${BASE_URL}/todo`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ task }),
+        });
+
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setTodos((prevTodos) => [...prevTodos, data.data as Todo]);
+
+      } catch (error) {
+        console.error("Error adding todo:", error);
+      }
+    }
+  }
+
+  const TodoElements = todos.map((el) => (
+    <Todo key={el._id} task={el.task} id={el._id} />
+  ));
+
+
+
   return (
     <div className="App">
       <div className="top">
@@ -45,7 +87,7 @@ function App() {
         </div>
         <p>3 of 7</p>
       </div>
-      <form className="form">
+      <form className="form" action={addTodo}>
         <input
           type="text"
           aria-label="enter text"
@@ -56,7 +98,7 @@ function App() {
           <i className="fa-solid fa-plus"></i>
         </button>
       </form>
-      <Todo />
+      {TodoElements}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Todo() {
+export default function Todo(props: { task: string; id: string }) {
   const [isCompleted, setIsCompleted] = useState(false);
 
   function handleCheckboxChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -8,23 +8,16 @@ export default function Todo() {
   }
 
   return (
-    <div className="todo-container">
-      <div className="todo">
+    <div className="todo-container" style={{ cursor: "pointer" }}>
+      <div className="todo" >
         <input
           type="checkbox"
-          id="task"
+          id={props.id}
           checked={isCompleted}
           onChange={handleCheckboxChange}
         />
-        <label
-          htmlFor="task"
-          className={isCompleted ? "completed" : ""}
-          style={{ cursor: "pointer" }}
-        >
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut ad soluta
-          dicta error voluptas ipsam quis, voluptatibus velit provident quam
-          quos eaque deleniti ea odit fugiat aspernatur? Cupiditate, id
-          voluptate.
+        <label htmlFor={props.id} className={isCompleted ? "completed" : ""} style={{ cursor: "pointer" }}>
+          {props.task}
         </label>
       </div>
 
